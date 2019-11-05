@@ -67,7 +67,7 @@ but soon enough you will get more comfortable with it.
 
 ## 🎯 Task 1
 
-First, complete the exercises in Amblina's [Command-line Tutorials](https://katacoda.com/amblina):
+First, complete the exercises in [Amber Wright's Command-line Tutorials](https://katacoda.com/amblina):
 
 1. Introduction to the Command-Line
 1. Beginner's guide to pagers
@@ -79,7 +79,7 @@ First, complete the exercises in Amblina's [Command-line Tutorials](https://kata
 
 Some files for analysis have already been downloaded to your computer in the `/data` directory. Using your newfound command-line skills, we are going to investigate them and show you what some of the files actually look like.
 
-These FASTQ files are from the sample [OT-FWCP10](chr17:6,600,000-10,600,000) from the PDMR database. The reference genome is from Illumina's [igenomes](https://support.illumina.com/sequencing/sequencing_software/igenome.html).
+These FASTQ files are from the sample [OT-FWCP10](https://pdmdb.cancer.gov/pls/apex/f?p=101:24:0::NO:::) from the PDMR database. In the interests of time, I have isolated only those reads that should map to p13.1 of chromosome 17 (chr17:6,600,000-10,600,000, around 4Mb worth). The reference genome (build hg38) is from Illumina's [igenomes](https://support.illumina.com/sequencing/sequencing_software/igenome.html).
 
 ## 🎯 Task 2
 
@@ -103,11 +103,19 @@ This will build on what you learned in Part 1.
 
 ## Containerised Analysis using ORCA
 
+We are going to use ORCA for these exercises. You can think of it as a tiny, self-contained little linux computer working inside your current machine. There are benefits to using such an environment, such as for ease of program installation and reproducibility.
+
 To start working in ORCA, use the following command:
 
 ```sh
 docker run --interactive --tty --volume /data:/Users/training --workdir /Users/training bcgsc/orca
 ```
+There are a number of options here that we've called docker with:
+
+- `--interactive` allows you to interact with the bash interface of the container
+- `--tty` opens a tty terminal session (Ross needs to update this)
+- `--volume <OS directory>:<docker directory>` mounts a *volume* to docker. This just allows you to access the fastq files from your machine from within the docker environment
+- `--workdir` sets the current working directory for when you start the container
 
 You will spin up your virtual linux operating system and see your prompt within ORCA's shell:
 
@@ -120,8 +128,6 @@ You can use `exit` to close the container and return to your system shell at any
 ## FASTQ File Format
 
 We now have some FASTQ files. These might be the first files containing genomic data that you've used. They look just like other plain text `.txt` files.
-
-We are going to use ORCA for these exercises. You can think of it as a tiny, self-contained little linux computer working inside your current machine. There are benefits to using such an environment, such as for ease of program installation and reproducibility.
 
 1. First let's unzip and call `head` to see the first 10 lines of `read_1.fastq.gz`: 
     - `$ gunzip read_1.fastq.gz`
@@ -188,6 +194,7 @@ Simply, we are going to use a search engine with two pieces of information, 1) T
 1. We find a [similar question](https://stackoverflow.com/questions/18148075/compilation-error-missing-zlib-h/38277221) asked by someone on stackoverflow, and a couple of answers. [This answer](https://stackoverflow.com/a/38277221) seems to be the key to solving it.
 1. According to the discussion, it appears that we're missing a dependency, a `C` library called `zlib`. The answer details how we can install this dependency and resolve our installation, run:
 ```sh
+# Note: Run in container
 sudo apt-get update
 sudo apt-get install libz-dev
 ```
@@ -205,7 +212,7 @@ Docker is a great tool that can be used to tackle one of the long-standing probl
 
 Build upon, and acknowledge the work of others, and don't repeat yourself when you don't have to.
 
-- Thank you to Amblina for the use of her excellent [Command-line Tutorials](https://katacoda.com/amblina)
+- A huge thank you to Amber Wright for the use of her excellent [Command-line Tutorials](https://katacoda.com/amblina)
 - Thanks to the authors of [this tutorial](https://melbournebioinformatics.github.io/MelBioInf_docs/tutorials/variant_calling_galaxy_1/) by [Melbourne Bioinformatics](http://www.melbournebioinformatics.org.au/). I have based this workshop around their excellent content. I encourage you to check it out if you would like an approach using the GUI bioinformatics tool, [Galaxy](https://usegalaxy.org)
 
 # Glossary
