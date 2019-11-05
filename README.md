@@ -125,6 +125,7 @@ root@b4601473c56e:/Users/training#
 
 You can use `exit` to close the container and return to your system shell at any time.
 
+<!-- 
 ## FASTQ File Format
 
 We now have some FASTQ files. These might be the first files containing genomic data that you've used. They look just like other plain text `.txt` files.
@@ -146,32 +147,50 @@ You can see that is is a series of repeating lines:
 1. Identifier line (`@D007`...)
 1. Read sequence line (`NTGAA`...) Now this makes sense to a biologist. This is the nucleotide base that has been decided to be the most likely ('called') by the base caller. If it can't decide, you'll notice, it assigns an `N`. Obviously, these are arranged left → right, 5' → 3'.
 1. Separator line (`+`) This is the strand that the read came from. Either the `+` or `-` strand.
-1. Quality score line . This tells you about the confidence in data quality for each base on line 2 below. Each character maps to a numeric quality score value.
+1. Quality score line . This tells you about the confidence in data quality for each base on line 2 below. Each character maps to a numeric quality score value. -->
 
 ## SAM File Format
 
 ## 🎯 Task 3
 
-We are going to align the reads in the fastq files to a reference genome using a CLI tool called `bowtie`.
-
-<!-- [Burrows-Wheeler Algorithm](http://bio-bwa.sourceforge.net/), using a CLI tool called `bwa`. -->
-
+1. Align the reads in the fastq files to a reference genome using a CLI tool called `bowtie`.
 ```sh
 (Our usage:)
 bowtie --sam <reference> -1 <R1.fastq> -2 <R2.fastq> <output.sam>
 
-bowtie --sam --chunkmbs 200 reference/igenomes/Homo_sapiens_NCBI_GRCh38/Homo_sapiens/NCBI/GRCh38/Sequence/BowtieIndex/genome -1 fastq/*R1* -2 fastq/*R2* aligned.sam
+bowtie --sam --chunkmbs 200 $REF -1 fastq/R1.fastq -2 fastq/R2.fastq aligned.sam
+```
+The options we pass to `bowtie` are:
+- `--sam` indicates we want the output to be in SAM format
+- `--chunkmbs 200` is required to prevent our machines running out of memory while trying to find the alignment for each read
+- `$REF` is the first unnamed option we use. It points to our reference genome, as described above
+- `-1` points to the location of our first FASTQ file - this contains the first mates of each paired-end read
+- `-2` likewise points to the location of our second FASTQ file
+- `aligned.sam` is our second unnamed option. It is the name that we want the output file to be
+2. We need to do a couple of operations on our SAM file before it is ready for mutation detection, we need to **compress** and **sort** the data.
+3. Compress the file. We are going to use the binary SAM (bam) format:
+```sh
+samtools -b aligned.sam > aligned.bam
+```
+4. Sort the file. We can do this by using samtools again:
+```sh
+samtools sort aligned.bam -o aligned.bai
 ```
 
 # Part 3: Mutation Detection
 
 ## VCF File Format
 
-Now that we have aligned our reads to the reference genome, we can perform **variant calling** - we can identify where there are mismatches between the two, which suggest a mutation in the experimental sample. We will use the `gatk` toolkit to do this and generate a VCF file.
+Now that we have aligned our reads to the reference genome, we can perform **variant calling** - we can identify where there are mismatches between the two, which suggest a mutation in the experimental sample.
 
 ## 🎯 Task 4
 
 You can download a vcf of the above sample. If we call `head file.vcf` then we can preview the contents of the file. VCF files are a tab-delimited file. You can think of them like Excel spreadsheets, except they use tabs to separate columns and returns to separate rows. You can even open it in Excel or another spreadsheet program.
+
+1. Call variants using `freebayes`:
+```sh
+freebayes -f Homo_sapiens_NCBI_GRCh38/Homo_sapiens/NCBI/GRCh38/Sequence/BowtieIndex/genome.fa aligned.bai > test_mutations.vcf
+```
 
 # Going Further
 
