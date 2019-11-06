@@ -92,7 +92,7 @@ This will build on what you learned in Part 1.
      1. Move the FASTQ files into it. You can use `mv` to do this
      1. The `mv` command is also used to rename files. Rename them to something shorter: I recommend something like `R1.fastq` and `R2.fastq`
 1. List the files that are in `fastqs/`
-1. Run `REF=Homo_sapiens/NCBI/GRCh38/Sequence/BowtieIndex/genome`. This will store the text starting "Homo_Sapiens"... which you can refer to using `$REF`. This will make things easier when you align the reads and need to reference this file. You can run `ls $REF` to see what it outputs.
+1. Run `BOWTIE_INDEX=/data/Homo_sapiens/UCSC/hg38/Sequence/BowtieIndex`. This will store the text starting "Homo_Sapiens"... which you can refer to using `$BOWTIE_INDEX`. This will make things easier when you align the reads and need to reference this file. You can run `ls $BOWTIE_INDEX` to see what it outputs.
 
 
 <!-- 
