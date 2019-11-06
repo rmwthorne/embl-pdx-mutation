@@ -89,11 +89,12 @@ This will build on what you learned in Part 1.
 1. List the files in the directory
 1. Let's organise things a bit: 
      1. Make a `fastqs` directory
-     1. Move the FASTQ files into it. You can use `mv` to do this
-     1. The `mv` command is also used to rename files. Rename them to something shorter: I recommend something like `R1.fastq` and `R2.fastq`
+     1. Move the FASTQ files into it. You can use `mv` to do this:
+        ```sh
+        mv r1.fastq fastqs/
+        mv r2.fastq fastqs/
+        ```
 1. List the files that are in `fastqs/`
-1. Run `BOWTIE_INDEX=/data/Homo_sapiens/UCSC/hg38/Sequence/BowtieIndex`. This will store the text starting "Homo_Sapiens"... which you can refer to using `$BOWTIE_INDEX`. This will make things easier when you align the reads and need to reference this file. You can run `ls $BOWTIE_INDEX` to see what it outputs.
-
 
 <!-- 
 | Patient ID | Specimen ID | Sample ID | CTEP SDC Code | CTEP SDC Description | Disease Body Location | PDM Type | VCF | VCF Version | Read1 FASTQ | Read2 FASTQ | FASTQ Version |
@@ -118,6 +119,7 @@ There are a number of options here that we've called docker with:
 - `--workdir` sets the current working directory for when you start the container
 
 You will spin up your virtual linux operating system and see your prompt within ORCA's shell:
+
 **All paths from now on will be relative paths from your `/data` directory**
 
 ```sh
@@ -155,28 +157,29 @@ You can see that is is a series of repeating lines:
 ## 🎯 Task 3
 
 1. Align the reads in the fastq files to a reference genome using a CLI tool called `bowtie`.
-```sh
-(Our usage:)
-bowtie --sam <reference> -1 <R1.fastq> -2 <R2.fastq> <output.sam>
 
-bowtie --sam --chunkmbs 200 Homo_sapiens/UCSC/hg38/Sequence/BowtieIndex/genome -1 fastq/R1.fastq -2 fastq/R2.fastq aligned.sam
-```
-The options we pass to `bowtie` are:
-- `--sam` indicates we want the output to be in SAM format
-- `--chunkmbs 200` is required to prevent our machines running out of memory while trying to find the alignment for each read
-- `Homo_sapiens/UCSC/hg38/Sequence/BowtieIndex/` is the first unnamed option we use. It points to our reference genome, as described above
-- `-1` points to the location of our first FASTQ file - this contains the first mates of each paired-end read
-- `-2` likewise points to the location of our second FASTQ file
-- `aligned.sam` is our second unnamed option. It is the name that we want the output file to be
+    We will use the command like so:
+    `bowtie --sam <reference> -1 <R1.fastq> -2 <R2.fastq> <output.sam>`
+
+    ```sh
+    bowtie --sam --chunkmbs 200 Homo_sapiens/UCSC/hg38/Sequence/BowtieIndex/genome -1 fastqs/r1.fastq -2 fastqs/r2.fastq aligned.sam
+    ```
+    The options we pass to `bowtie` are:
+    - `--sam` indicates we want the output to be in SAM format
+    - `--chunkmbs 200` is required to prevent our machines running out of memory while trying to find the alignment for each read
+    - `Homo_sapiens/UCSC/hg38/Sequence/BowtieIndex/` is the first unnamed option we use. It points to our reference genome, as described above
+    - `-1` points to the location of our first FASTQ file - this contains the first mates of each paired-end read
+    - `-2` likewise points to the location of our second FASTQ file
+    - `aligned.sam` is our second unnamed option. It is the name that we want the output file to be
 2. We need to do a couple of operations on our SAM file before it is ready for mutation detection, we need to **compress** and **sort** the data.
 3. Compress the file. We are going to use the binary SAM (bam) format:
-```sh
-samtools -b aligned.sam > aligned.bam
-```
+    ```sh
+    samtools view -b aligned.sam > aligned.bam
+    ```
 4. Sort the file. We can do this by using samtools again:
-```sh
-samtools sort aligned.bam -o aligned.bai
-```
+    ```sh
+    samtools sort aligned.bam -o aligned.bai
+    ```
 
 # Part 3: Mutation Detection
 
