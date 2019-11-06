@@ -154,6 +154,16 @@ You can see that is is a series of repeating lines:
 
 ## SAM File Format
 
+SAM files describe where your sequencing reads map to on a reference genome. Here is an example of a line that represents an alignment. Most of these fields do not convey much information, but the following fields make intuitive sense:
+
+- 3. (`chr17`) 'RNAME': this shows the reference chromosome that was mapped to.
+
+- 4. (`10450470`) ''POS': the coordinate of the leftmost read base
+
+```
+D00748:170:CD31MANXX:5:1101:1136:89194	99	chr17	10450470	255	124M	=	10450535	189	CTCTGTGCGCTNGATGGCGTCCGTCTCGTACTTGGTCCNCCACTGGGCAACCTCACTGTTNNCCTTGGACATTCCCCTCTGCAGCTCAGCCTTGGCTTCCTGCTCCTCCTCATACTGTTCCCGC	BBBBBFFFFFF#<BFBFFFFFFFFBFFFFFFFFFFFBB#<<FBFF/FBFF/BFFFFFFFF##<<<FF/<F/FFFBFFFFFFFFFFFFFFFFFFFFFFFFFFBFBBBFFFFFFFBBFFBFBBBBB	XA:i:1	MD:Z:11G26T21G0G62	NM:i:4	XM:i:2
+```
+
 ## 🎯 Task 3
 
 1. Align the reads in the fastq files to a reference genome using a CLI tool called `bowtie`.
@@ -189,12 +199,13 @@ Now that we have aligned our reads to the reference genome, we can perform **var
 
 ## 🎯 Task 4
 
-You can download a vcf of the above sample. If we call `head file.vcf` then we can preview the contents of the file. VCF files are a tab-delimited file. You can think of them like Excel spreadsheets, except they use tabs to separate columns and returns to separate rows. You can even open it in Excel or another spreadsheet program.
-
 1. Call variants using `freebayes`:
 ```sh
 freebayes -f Homo_sapiens/UCSC/hg38/Sequence/BowtieIndex/genome.fa aligned.bai > test_mutations.vcf
 ```
+3. If we call `head test_mutations.vcf` then we can preview the contents of the file. VCF files are a tab-delimited file. You can think of them like Excel spreadsheets, except they use tabs to separate columns and returns to separate rows. You can even open it in Excel or another spreadsheet program.
+2. Take a vcf that has been generated from the full read dataset (Here [here](ftp://dctdftp.nci.nih.gov/pub/pdm/994819~140-R~OT-FWCP10~v2.0.1.51.0~WES.vcf) and upload it to [CRAVAT.us](https://cravat.us)
+
 
 # Going Further
 
