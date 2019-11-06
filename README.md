@@ -230,6 +230,11 @@ library("vcfR")
 
 Docker is a great tool that can be used to tackle one of the long-standing problems of bioinformatics analyses: Reproducibility. For an example of why, you can see the [recent story about python in the news](https://arstechnica.com/information-technology/2019/10/chemists-discover-cross-platform-python-scripts-not-so-cross-platform/)[Neupane et al. 2019](https://pubs.acs.org/doi/10.1021/acs.orglett.9b03216)
 
+# 🙂 Feedback
+
+Any feedback would be very welcome! Three short questions, no required answers, completely anonymous!
+
+[Feedback form](https://forms.gle/CjQHP2LSgBGePhX7A)
 
 # Acknowledgements
 
