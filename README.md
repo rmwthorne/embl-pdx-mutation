@@ -118,6 +118,7 @@ There are a number of options here that we've called docker with:
 - `--workdir` sets the current working directory for when you start the container
 
 You will spin up your virtual linux operating system and see your prompt within ORCA's shell:
+**All paths from now on will be relative paths from your `/data` directory**
 
 ```sh
 root@b4601473c56e:/Users/training#
@@ -158,12 +159,12 @@ You can see that is is a series of repeating lines:
 (Our usage:)
 bowtie --sam <reference> -1 <R1.fastq> -2 <R2.fastq> <output.sam>
 
-bowtie --sam --chunkmbs 200 $REF -1 fastq/R1.fastq -2 fastq/R2.fastq aligned.sam
+bowtie --sam --chunkmbs 200 Homo_sapiens/UCSC/hg38/Sequence/BowtieIndex/genome -1 fastq/R1.fastq -2 fastq/R2.fastq aligned.sam
 ```
 The options we pass to `bowtie` are:
 - `--sam` indicates we want the output to be in SAM format
 - `--chunkmbs 200` is required to prevent our machines running out of memory while trying to find the alignment for each read
-- `$REF` is the first unnamed option we use. It points to our reference genome, as described above
+- `Homo_sapiens/UCSC/hg38/Sequence/BowtieIndex/` is the first unnamed option we use. It points to our reference genome, as described above
 - `-1` points to the location of our first FASTQ file - this contains the first mates of each paired-end read
 - `-2` likewise points to the location of our second FASTQ file
 - `aligned.sam` is our second unnamed option. It is the name that we want the output file to be
@@ -189,7 +190,7 @@ You can download a vcf of the above sample. If we call `head file.vcf` then we c
 
 1. Call variants using `freebayes`:
 ```sh
-freebayes -f Homo_sapiens_NCBI_GRCh38/Homo_sapiens/NCBI/GRCh38/Sequence/BowtieIndex/genome.fa aligned.bai > test_mutations.vcf
+freebayes -f Homo_sapiens/UCSC/hg38/Sequence/BowtieIndex/genome.fa aligned.bai > test_mutations.vcf
 ```
 
 # Going Further
