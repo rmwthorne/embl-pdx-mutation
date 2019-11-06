@@ -204,7 +204,7 @@ Now that we have aligned our reads to the reference genome, we can perform **var
 freebayes -f Homo_sapiens/UCSC/hg38/Sequence/BowtieIndex/genome.fa aligned.bai > test_mutations.vcf
 ```
 3. If we call `head test_mutations.vcf` then we can preview the contents of the file. VCF files are a tab-delimited file. You can think of them like Excel spreadsheets, except they use tabs to separate columns and returns to separate rows. You can even open it in Excel or another spreadsheet program.
-2. Take a vcf that has been generated from the full read dataset ( [here](ftp://dctdftp.nci.nih.gov/pub/pdm/994819~140-R~OT-FWCP10~v2.0.1.51.0~WES.vcf) and upload it to [CRAVAT.us](https://cravat.us)
+2. Take a vcf that has been generated from the full read dataset ([here](ftp://dctdftp.nci.nih.gov/pub/pdm/994819~140-R~OT-FWCP10~v2.0.1.51.0~WES.vcf)) and upload it to [CRAVAT.us](https://cravat.us)
 
 
 # Going Further
